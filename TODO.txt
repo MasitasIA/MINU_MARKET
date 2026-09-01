@@ -1,0 +1,39 @@
+# TODO: Frontend Marketplace Local (React + Next.js + Tailwind)
+
+## 1. Configuración Inicial y Arquitectura (✓ COMPLETADO)
+[x] Instalar Next.js con App Router, Tailwind CSS, y TypeScript.
+[x] Crear estructura de directorios (`src/components`, `src/lib`, `src/hooks`, `src/types`).
+[x] Configurar rutas básicas de cliente y vendedor (ahora en español: `/tiendas`, `/productos`, `/carrito`, `/panel-tienda`).
+
+## 2. UI Base y Diseño System (En Progreso)
+[x] Configurar variables de diseño (colores primarios, fuentes integradas mediante CSS en `globals.css`).
+[ ] Crear componentes UI reutilizables puros (Button, Input, Modal, Dropdown, Table). *[Pendiente de extraer a UI components genéricos]*
+[x] Crear el `Layout` principal orientado a compradores (Navbar con buscador y carrito, Footer legal/informativo).
+[ ] Crear el `Layout` para el panel de administración de tiendas (Sidebar, Header con notificaciones).
+
+## 3. Rutas y Vistas Orientadas al Cliente (Compradores) (✓ CASI COMPLETO)
+[x] `app/page.tsx` (Home): Hero section, carrusel de tiendas destacadas, grilla de productos recientes.
+[x] `app/productos/page.tsx`: Lista de todos los productos (Catálogo principal) con filtros interactivos por categoría y rango de precio.
+[x] `app/tiendas/[id]/page.tsx`: Perfil de la tienda (banner panorámico, avatar, 'sobre nosotros', sistema de reseñas y catálogo propio de la tienda).
+[x] `app/productos/[id]/page.tsx`: Detalle de producto (galería de imágenes interactiva, descripción, precio, botón de "Añadir al carrito", advertencias de vendedores no verificados).
+[ ] `app/carrito/page.tsx`: Resumen de productos añadidos, cálculo de subtotales, botón hacia checkout.
+[ ] `app/pago/page.tsx` (Checkout): Formulario de envío y simulación de pago local.
+
+## 4. Rutas y Vistas Orientadas al Vendedor (Tiendas) (Por Empezar)
+[ ] `app/panel-tienda/page.tsx`: Dashboard de la tienda (Métricas clave: ventas, pedidos pendientes, productos activos).
+[ ] `app/panel-tienda/products/page.tsx`: Tabla de gestión de productos propios (con opciones de editar y eliminar).
+[ ] `app/panel-tienda/products/new/page.tsx`: Formulario de creación de producto (título, descripción, precio, categoría, subida de imágenes, stock).
+[ ] `app/panel-tienda/orders/page.tsx`: Listado de pedidos recibidos, actualización de estados (preparando, enviado, entregado).
+
+## 5. Integración Lógica y Estado (Mock o Context)
+[ ] Crear `CartContext` o hook global con Zustand/Redux para manejar el estado global del carrito de compras.
+[ ] Crear utilidades en `src/lib/utils.ts` (formateo de moneda local, merge de clases Tailwind tipo clsx/twMerge).
+[x] Crear mock data complejo para probar la interfaz (tiendas, productos, imágenes múltiples, reseñas).
+
+## 6. Detalles Finales y Pulido (Mejoras Propuestas) (✓ COMPLETADO)
+[x] Optimizar imágenes usando el componente `<Image>` de `next/image`. *(Actualmente el linter lanza advertencias por el uso masivo de la etiqueta `<img>` normal).*
+[x] Añadir animaciones sutiles (hover effects y transiciones CSS incorporadas en lugar de librerías pesadas).
+[x] Asegurar que todo sea 100% responsivo (Mobile-first). *(Aplicado en la grilla del catálogo con grid-cols-2).*
+[x] Revisar accesibilidad completa (aria-labels en botones sin texto).
+[x] Mejorar la búsqueda integrando el buscador del Navbar con la página de catálogo (pasando parámetros por URL ?q=termino).
+[x] Añadir un estado vacío global y manejo de errores (páginas de 404 personalizadas, errores de carga).

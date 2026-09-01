@@ -1,26 +1,55 @@
 @import "tailwindcss";
 
+/* Paleta de colores de Minú Market */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdfbf7;
+  --foreground: #0c4066;
+  --foreground-muted: #5c7b99;
+  --foreground-subtle: #8ea3b8;
+  --brand-primary: #005fb9;
+  --brand-secondary: #00ad8e;
+  --surface: #ffffff;
+  --surface-muted: #f4f7fa;
+  --border: #e3ebf2;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-primary: var(--brand-primary);
+  --color-secondary: var(--brand-secondary);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
+
+  --radius-predefined: 0.8rem;
+  --radius-button: 1rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #fdfbf7;
+    --foreground: #0c4066ff;
+    --surface: #ffffff;
+  }
+}
+
+/* Utilidades personalizadas para aplicar los radios */
+.radius-predefined {
+  border-radius: var(--radius-predefined);
+}
+
+.radius-button {
+  border-radius: var(--radius-button);
 }
