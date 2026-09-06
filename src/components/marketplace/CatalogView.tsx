@@ -17,6 +17,7 @@ interface Product {
   sales: number;
   rating: number;
   category: string;
+  locality_id?: string;
 }
 
 interface CatalogViewProps {
@@ -28,15 +29,18 @@ export function CatalogView({ products }: CatalogViewProps) {
   // Lógica y Estado
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
+  const initialLocality = searchParams.get("locality") || "";
   
   const [searchQuery, setSearchQuery] = useState<string>(initialQuery);
   const [selectedCategory, setSelectedCategory] = useState<string>("Todas");
+  const [selectedLocality, setSelectedLocality] = useState<string>(initialLocality);
   const [maxPrice, setMaxPrice] = useState<number>(100000);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
 
   // Sincronizar búsqueda URL con el estado
   useEffect(() => {
     setSearchQuery(searchParams.get("q") || "");
+    setSelectedLocality(searchParams.get("locality") || "");
   }, [searchParams]);
 
   // Extraer categorías únicas
@@ -49,14 +53,15 @@ export function CatalogView({ products }: CatalogViewProps) {
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const matchCategory = selectedCategory === "Todas" || p.category === selectedCategory;
+      const matchLocality = selectedLocality === "" || p.locality_id === selectedLocality;
       const matchPrice = p.price <= maxPrice;
       const matchSearch = searchQuery === "" || 
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
         p.storeName.toLowerCase().includes(searchQuery.toLowerCase());
         
-      return matchCategory && matchPrice && matchSearch;
+      return matchCategory && matchLocality && matchPrice && matchSearch;
     });
-  }, [products, selectedCategory, maxPrice, searchQuery]);
+  }, [products, selectedCategory, selectedLocality, maxPrice, searchQuery]);
 
   // Renderizado
   return (

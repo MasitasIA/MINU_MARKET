@@ -19,7 +19,7 @@ export function EmptyStoreState() {
         comunidad y empieza a vender hoy mismo.
       </p>
       <Link
-        href="/vender"
+        href="/panel-tienda"
         className="radius-button bg-primary px-8 py-3.5 font-bold text-white shadow-md transition-all hover:brightness-110 hover:shadow-lg hover:shadow-primary/20 active:scale-95"
       >
         Registrar mi tienda

@@ -3,19 +3,21 @@
 ## 1. Configuración Inicial y Arquitectura (✓ COMPLETADO)
 [x] Instalar Next.js con App Router, Tailwind CSS, y TypeScript.
 [x] Crear estructura de directorios (`src/components`, `src/lib`, `src/hooks`, `src/types`).
-[x] Configurar rutas básicas de cliente y vendedor (ahora en español: `/tiendas`, `/productos`, `/carrito`, `/panel-tienda`).
+[x] Configurar rutas básicas de cliente y vendedor (`/tiendas`, `/productos`, `/carrito`, `/panel-tienda`, `/registro`, `/iniciar`).
 
 ## 2. UI Base y Diseño System (En Progreso)
 [x] Configurar variables de diseño (colores primarios, fuentes integradas mediante CSS en `globals.css`).
-[ ] Crear componentes UI reutilizables puros (Button, Input, Modal, Dropdown, Table). *[Pendiente de extraer a UI components genéricos]*
+[ ] Crear componentes UI genéricos reutilizables (Button, Input, Modal). *(Actualmente el AuthModal está, pero faltan componentes de formulario puros para no repetir código de Tailwind).*
 [x] Crear el `Layout` principal orientado a compradores (Navbar con buscador y carrito, Footer legal/informativo).
 [ ] Crear el `Layout` para el panel de administración de tiendas (Sidebar, Header con notificaciones).
 
-## 3. Rutas y Vistas Orientadas al Cliente (Compradores) (✓ CASI COMPLETO)
+## 3. Rutas y Vistas Orientadas al Cliente (Compradores) (En Progreso)
 [x] `app/page.tsx` (Home): Hero section, carrusel de tiendas destacadas, grilla de productos recientes.
-[x] `app/productos/page.tsx`: Lista de todos los productos (Catálogo principal) con filtros interactivos por categoría y rango de precio.
-[x] `app/tiendas/[id]/page.tsx`: Perfil de la tienda (banner panorámico, avatar, 'sobre nosotros', sistema de reseñas y catálogo propio de la tienda).
-[x] `app/productos/[id]/page.tsx`: Detalle de producto (galería de imágenes interactiva, descripción, precio, botón de "Añadir al carrito", advertencias de vendedores no verificados).
+[x] `app/productos/page.tsx`: Lista de todos los productos (Catálogo principal) con filtros interactivos.
+[x] `app/tiendas/[id]/page.tsx`: Perfil de la tienda.
+[x] `app/productos/[id]/page.tsx`: Detalle de producto.
+[x] `app/registro/page.tsx`: Formulario de registro con validaciones de seguridad y guardado en archivo local temporal mediante Server Action.
+[ ] `app/iniciar/page.tsx`: Formulario de inicio de sesión (Login) que valide contra el archivo `users-temp.json`.
 [ ] `app/carrito/page.tsx`: Resumen de productos añadidos, cálculo de subtotales, botón hacia checkout.
 [ ] `app/pago/page.tsx` (Checkout): Formulario de envío y simulación de pago local.
 
@@ -23,17 +25,29 @@
 [ ] `app/panel-tienda/page.tsx`: Dashboard de la tienda (Métricas clave: ventas, pedidos pendientes, productos activos).
 [ ] `app/panel-tienda/products/page.tsx`: Tabla de gestión de productos propios (con opciones de editar y eliminar).
 [ ] `app/panel-tienda/products/new/page.tsx`: Formulario de creación de producto (título, descripción, precio, categoría, subida de imágenes, stock).
-[ ] `app/panel-tienda/orders/page.tsx`: Listado de pedidos recibidos, actualización de estados (preparando, enviado, entregado).
+[ ] `app/panel-tienda/orders/page.tsx`: Listado de pedidos recibidos, actualización de estados.
 
-## 5. Integración Lógica y Estado (Mock o Context)
-[ ] Crear `CartContext` o hook global con Zustand/Redux para manejar el estado global del carrito de compras.
-[ ] Crear utilidades en `src/lib/utils.ts` (formateo de moneda local, merge de clases Tailwind tipo clsx/twMerge).
-[x] Crear mock data complejo para probar la interfaz (tiendas, productos, imágenes múltiples, reseñas).
+## 5. Integración Lógica y Estado
+[ ] Crear `CartContext` o store global con Zustand para manejar el estado global del carrito de compras en todo el sitio.
+[x] Crear validadores (ej. DNI, Contraseñas fuertes) en `src/lib/validators.ts`.
+[x] Crear mock data y lógica de lectura/escritura (Server Actions) para manejar la base de datos temporal (`users-temp.json`).
 
 ## 6. Detalles Finales y Pulido (Mejoras Propuestas) (✓ COMPLETADO)
-[x] Optimizar imágenes usando el componente `<Image>` de `next/image`. *(Actualmente el linter lanza advertencias por el uso masivo de la etiqueta `<img>` normal).*
-[x] Añadir animaciones sutiles (hover effects y transiciones CSS incorporadas en lugar de librerías pesadas).
-[x] Asegurar que todo sea 100% responsivo (Mobile-first). *(Aplicado en la grilla del catálogo con grid-cols-2).*
+[x] Optimizar imágenes usando el componente `<Image>` de `next/image`.
+[x] Añadir animaciones sutiles (hover effects y transiciones CSS incorporadas).
+[x] Asegurar que todo sea 100% responsivo (Mobile-first). 
 [x] Revisar accesibilidad completa (aria-labels en botones sin texto).
-[x] Mejorar la búsqueda integrando el buscador del Navbar con la página de catálogo (pasando parámetros por URL ?q=termino).
-[x] Añadir un estado vacío global y manejo de errores (páginas de 404 personalizadas, errores de carga).
+[x] Mejorar la búsqueda integrando el buscador del Navbar con la página de catálogo.
+[x] Añadir un estado vacío global y manejo de errores (páginas 404 y boundaries de error).
+
+## 7. Nuevas Tareas Descubiertas (Auditoría Reciente)
+[ ] **Refactorización de Formularios:** Extraer los inputs de texto del Registro a un componente `<Input />` reutilizable, porque el Dashboard del vendedor necesitará muchísimos formularios y será tedioso repetir las clases de Tailwind.
+[ ] **Expansión del "Backend Mock":** Ya que implementamos escritura de archivos con `users-temp.json`, debemos hacer lo mismo para el catálogo de productos (`products.json`) cuando el vendedor cree un nuevo producto en su panel.
+
+
+## 8. Seguridad y Protección de Datos (Urgente)
+[ ] Instalar `bcrypt` y encriptar las contraseñas en `src/app/actions/auth.ts` antes de guardarlas.
+[ ] Implementar sistema de sesiones (JWT o Cookies HTTP-Only) para el inicio de sesión.
+[ ] Añadir sanitización (DOMPurify o Zod) en el backend para evitar inyección de código (XSS) en nombres o descripciones de tiendas.
+[ ] Migrar el archivo `users-temp.json` a una base de datos real (Supabase, Firebase, o Postgres) para evitar vulnerabilidades de concurrencia y proteger los datos personales.
+[ ] (Opcional) Implementar Rate Limiting en las Server Actions para evitar ataques de fuerza bruta.

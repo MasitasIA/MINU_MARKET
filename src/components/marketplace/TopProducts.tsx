@@ -1,14 +1,6 @@
-// Importaciones
-import { ProductCard } from "./ProductCard";
-import { MOCK_PRODUCTS } from "@/lib/mock-data";
+import { Store } from "lucide-react";
 
-// Componente de productos más populares
-export function TopProducts() {
-  // Lógica y estado
-  if (MOCK_PRODUCTS.length === 0) {
-    return null;
-  }
-
+export async function TopProducts() {
   return (
     <section className="bg-primary/5 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -17,21 +9,14 @@ export function TopProducts() {
             Lo que más disfrutan tus vecinos
           </h2>
           <p className="max-w-2xl text-lg text-foreground-muted">
-            Mira los productos más populares en tu localidad, ¿qué estás
-            esperando?
+            Descubre los productos más populares, calificados y vendidos en tu zona.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {MOCK_PRODUCTS.map((product) => (
-            <ProductCard key={product.id} {...product} />
-          ))}
-        </div>
-
-        <div className="mt-12 flex justify-center">
-          <button className="radius-button bg-primary px-8 py-3.5 font-bold text-white shadow-md transition-all hover:brightness-110 hover:shadow-lg hover:shadow-primary/20">
-            Explorar todos los productos
-          </button>
+        <div className="flex flex-col items-center justify-center p-12 text-center radius-predefined bg-white ring-1 ring-border border-dashed">
+          <Store className="h-12 w-12 text-border mb-4" />
+          <h3 className="text-lg font-bold text-foreground">El catálogo está vacío</h3>
+          <p className="text-foreground-muted mt-2">Pronto nuestros vendedores empezarán a publicar sus mejores productos.</p>
         </div>
       </div>
     </section>

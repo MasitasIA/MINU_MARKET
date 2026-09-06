@@ -1,9 +1,17 @@
-// Iconos
-import { Search, MapPin } from "lucide-react";
-import { LOCALITIES, PRODUCT_CATEGORIES } from "@/lib/constants";
+// Importaciones
+import { Tag } from "lucide-react";
+import { getPopularCategories } from "@/app/actions/categories";
+import { getAllLocalities } from "@/app/actions/localities";
+import { HeroSearch } from "@/components/marketplace/HeroSearch";
+import Link from "next/link";
 
-// Hero
-export function Hero() {
+// Componente Principal de Búsqueda (Hero)
+export async function Hero() {
+  // Lógica y Estado
+  const popularCategories = await getPopularCategories(5);
+  const localities = await getAllLocalities();
+
+  // Renderizado
   return (
     <section className="relative overflow-hidden bg-primary/5 py-16 sm:py-24">
       <div
@@ -30,50 +38,20 @@ export function Hero() {
         </p>
 
         {/* Buscador integrado en Hero */}
-        <div className="mx-auto mt-10 max-w-3xl radius-predefined bg-white p-3 shadow-xl shadow-primary/10 ring-1 ring-border">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <div className="relative flex-1">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <Search className="h-5 w-5 text-foreground-subtle" />
-              </div>
-              <input
-                type="text"
-                className="h-12 w-full radius-predefined bg-surface-muted pl-12 pr-4 text-foreground placeholder:text-foreground-muted outline-none focus:bg-white focus:ring-2 focus:ring-primary/20"
-                placeholder="¿Qué te apetece comprar hoy?"
-              />
-            </div>
-
-            <div className="h-px w-full bg-surface-muted sm:h-12 sm:w-px"></div>
-
-            <div className="relative sm:w-56">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <MapPin className="h-5 w-5 text-foreground-subtle" />
-              </div>
-              <select className="h-12 w-full appearance-none radius-predefined bg-surface-muted pl-12 pr-8 text-foreground outline-none focus:bg-white focus:ring-2 focus:ring-primary/20">
-                {LOCALITIES.map((loc) => (
-                  <option key={loc.id} value={loc.id}>
-                    {loc.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button className="h-12 radius-button bg-primary px-8 font-bold text-white shadow-md transition-all hover:brightness-110 hover:shadow-lg hover:shadow-primary/20 active:scale-95">
-              Buscar
-            </button>
-          </div>
-        </div>
+        <HeroSearch localities={localities} />
 
         {/* Categorías */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-sm font-medium">
           <span className="text-foreground-muted">Categorías populares:</span>
-          {PRODUCT_CATEGORIES.slice(0, 4).map((cat) => (
-            <button
+          {popularCategories.map((cat) => (
+            <Link
               key={cat.id}
-              className="radius-button bg-white px-4 py-1.5 text-foreground-muted shadow-sm ring-1 ring-border transition-all hover:text-primary hover:ring-primary/30"
+              href={`/productos?category=${cat.slug}`}
+              className="radius-button bg-white px-4 py-1.5 text-foreground-muted shadow-sm ring-1 ring-border transition-all hover:text-primary hover:ring-primary/30 flex items-center gap-2"
             >
-              {cat.icon} {cat.label}
-            </button>
+              {cat.icon ? <span>{cat.icon}</span> : <Tag className="h-4 w-4" />}{" "}
+              {cat.name}
+            </Link>
           ))}
         </div>
       </div>

@@ -1,2 +1,5 @@
-﻿export default function Page() { return <div>En construccion...</div>; }
-
+// Componente de la Página de Tiendas
+export default function Page() {
+  // Renderizado
+  return <div>En construccion...</div>;
+}

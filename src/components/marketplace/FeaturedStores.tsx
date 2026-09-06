@@ -1,13 +1,16 @@
-﻿// Componentes
+// Componentes
 import { StoreCard } from "./StoreCard";
 import { EmptyStoreState } from "./EmptyStoreState";
 
-// Datos
-import { MOCK_STORES } from "@/lib/mock-data";
+// Base de Datos
+import { getAllStores } from "@/app/actions/store";
 
-export function FeaturedStores() {
+// Contar si existen tiendas, sino lanzar componente externo
+export async function FeaturedStores() {
+  const stores = await getAllStores();
+
   // Si no hay tiendas, mostrar el estado de ausencia de tiendas
-  if (MOCK_STORES.length === 0) {
+  if (!stores || stores.length === 0) {
     return (
       <section className="bg-white py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -32,7 +35,7 @@ export function FeaturedStores() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {MOCK_STORES.map((store) => (
+          {stores.map((store) => (
             <StoreCard key={store.id} {...store} />
           ))}
         </div>
